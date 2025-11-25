@@ -1,0 +1,693 @@
+@import "tailwindcss";
+
+:root {
+  --background: #030712;
+  --foreground: #f9fafb;
+  --warzone-red: #ef233c;
+  --warzone-lime: #a3ff12;
+  --warzone-cyan: #06b6d4;
+  --warzone-purple: #a855f7;
+  --warzone-gold: #fbbf24;
+  --warzone-orange: #f97316;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-warzone-red: var(--warzone-red);
+  --color-warzone-lime: var(--warzone-lime);
+  --color-warzone-cyan: var(--warzone-cyan);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* ================================
+   PREMIUM DESIGN SYSTEM
+   ================================ */
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  overflow-x: hidden;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.5);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, var(--warzone-cyan), var(--warzone-purple));
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, var(--warzone-cyan), var(--warzone-lime));
+}
+
+/* ================================
+   ANIMATIONS
+   ================================ */
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translateY(-30px) rotate(180deg);
+    opacity: 0.8;
+  }
+}
+
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.1);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes glow-pulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(6, 182, 212, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(6, 182, 212, 0.6), 0 0 60px rgba(168, 85, 247, 0.3);
+  }
+}
+
+@keyframes slide-up {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scale-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes bounce-subtle {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes gradient-shift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes count-up {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes hero-zoom {
+  0% {
+    transform: scale(1.02);
+  }
+  100% {
+    transform: scale(1.12);
+  }
+}
+
+@keyframes tournament-orbit {
+  0% {
+    transform: translate3d(-15%, -15%, 0) scale(1);
+    opacity: 0.55;
+  }
+  50% {
+    transform: translate3d(10%, 12%, 0) scale(1.25);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate3d(-15%, -15%, 0) scale(1);
+    opacity: 0.55;
+  }
+}
+
+/* Animation Classes */
+.animate-float {
+  animation: float 20s ease-in-out infinite;
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 4s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+.animate-glow-pulse {
+  animation: glow-pulse 2s ease-in-out infinite;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.5s ease-out forwards;
+}
+
+.animate-scale-in {
+  animation: scale-in 0.3s ease-out forwards;
+}
+
+.animate-bounce-subtle {
+  animation: bounce-subtle 2s ease-in-out infinite;
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift 3s ease infinite;
+}
+
+/* ================================
+   PREMIUM CARDS & SURFACES
+   ================================ */
+
+.glass-card {
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(15, 23, 42, 0.7) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  box-shadow: 
+    0 25px 50px -12px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
+  border-color: rgba(6, 182, 212, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 
+    0 30px 60px -15px rgba(0, 0, 0, 0.6),
+    0 0 30px rgba(6, 182, 212, 0.1);
+}
+
+.neon-card {
+  position: relative;
+  border-radius: 16px;
+  background: rgba(17, 17, 17, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.neon-card:hover {
+  border-color: rgba(6, 182, 212, 0.4);
+  background: rgba(20, 20, 20, 0.98);
+}
+
+.neon-card-inner {
+  background: transparent;
+  padding: 20px;
+  height: 100%;
+}
+
+.premium-card {
+  background: linear-gradient(145deg, rgba(17, 24, 39, 0.95), rgba(17, 24, 39, 0.8));
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 24px;
+  box-shadow: 
+    0 4px 6px rgba(0, 0, 0, 0.1),
+    0 20px 40px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.premium-card:hover {
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 
+    0 8px 12px rgba(0, 0, 0, 0.15),
+    0 30px 60px rgba(0, 0, 0, 0.4),
+    0 0 40px rgba(6, 182, 212, 0.15);
+}
+
+/* Game Card Style */
+.game-card {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.6), rgba(15, 23, 42, 0.95));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.game-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 40%, rgba(6, 182, 212, 0.2) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.game-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  border-color: rgba(6, 182, 212, 0.4);
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.4),
+    0 0 30px rgba(6, 182, 212, 0.2);
+}
+
+.game-card:hover::after {
+  opacity: 1;
+}
+
+/* Tournament Card - Clean Admin Style */
+.tournament-card {
+  position: relative;
+  background: rgba(17, 17, 17, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.tournament-card:hover {
+  border-color: rgba(6, 182, 212, 0.4);
+  transform: translateY(-2px);
+}
+
+/* ================================
+   PREMIUM BUTTONS
+   ================================ */
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  font-weight: 600;
+  font-size: 14px;
+  color: white;
+  background: var(--warzone-cyan);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  background: #0891b2;
+  transform: translateY(-1px);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-gradient {
+  background: var(--warzone-cyan);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  font-weight: 600;
+  font-size: 14px;
+  color: white;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.btn-glow {
+  animation: glow-pulse 2s ease-in-out infinite;
+}
+
+/* ================================
+   TOURNAMENT HERO
+   ================================ */
+
+.tournament-hero-glow {
+  position: relative;
+  overflow: hidden;
+}
+
+.tournament-hero-glow::before,
+.tournament-hero-glow::after {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  border-radius: 9999px;
+  background: radial-gradient(circle at center, rgba(6, 182, 212, 0.4), transparent 65%);
+  filter: blur(28px);
+  opacity: 0.7;
+  pointer-events: none;
+  animation: tournament-orbit 22s linear infinite;
+}
+
+.tournament-hero-glow::after {
+  background: radial-gradient(circle at center, rgba(168, 85, 247, 0.35), transparent 70%);
+  animation-duration: 30s;
+  animation-direction: reverse;
+}
+
+.hero-zoom-img {
+  transform-origin: center;
+  animation: hero-zoom 20s ease-in-out infinite alternate;
+}
+
+/* ================================
+   STAT CARDS
+   ================================ */
+
+.stat-card {
+  position: relative;
+  padding: 20px;
+  border-radius: 20px;
+  background: linear-gradient(145deg, rgba(17, 24, 39, 0.8), rgba(17, 24, 39, 0.6));
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at top left, currentColor, transparent 60%);
+  opacity: 0.1;
+  transition: opacity 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  border-color: currentColor;
+}
+
+.stat-card:hover::before {
+  opacity: 0.2;
+}
+
+/* ================================
+   CHIPS & BADGES
+   ================================ */
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  transition: all 0.2s ease;
+}
+
+.chip-live {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.3);
+  color: #ef4444;
+  animation: glow-pulse 2s ease-in-out infinite;
+}
+
+.chip-upcoming {
+  background: rgba(6, 182, 212, 0.15);
+  border-color: rgba(6, 182, 212, 0.3);
+  color: #06b6d4;
+}
+
+.chip-completed {
+  background: rgba(34, 197, 94, 0.15);
+  border-color: rgba(34, 197, 94, 0.3);
+  color: #22c55e;
+}
+
+.chip-prize {
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.2), rgba(249, 115, 22, 0.2));
+  border-color: rgba(251, 191, 36, 0.4);
+  color: #fbbf24;
+}
+
+/* ================================
+   PROGRESS BARS
+   ================================ */
+
+.progress-bar {
+  position: relative;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 100px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  border-radius: 100px;
+  background: var(--warzone-cyan);
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ================================
+   INPUTS
+   ================================ */
+
+.input-premium {
+  width: 100%;
+  padding: 16px 20px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  color: white;
+  font-size: 15px;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.input-premium:focus {
+  border-color: var(--warzone-cyan);
+  box-shadow: 0 0 0 4px rgba(6, 182, 212, 0.15);
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.input-premium::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+/* ================================
+   NAVIGATION
+   ================================ */
+
+.nav-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  color: rgba(255, 255, 255, 0.5);
+  transition: all 0.3s ease;
+}
+
+.nav-item::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 3px;
+  background: var(--warzone-cyan);
+  border-radius: 3px 3px 0 0;
+  transition: width 0.3s ease;
+}
+
+.nav-item:hover {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.nav-item.active {
+  color: white;
+}
+
+.nav-item.active::before {
+  width: 80%;
+}
+
+/* ================================
+   WALLET CARD
+   ================================ */
+
+.wallet-card {
+  position: relative;
+  background: linear-gradient(135deg, #0f766e, #0891b2, #6366f1);
+  background-size: 200% 200%;
+  animation: gradient-shift 5s ease infinite;
+  border-radius: 24px;
+  padding: 24px;
+  overflow: hidden;
+}
+
+.wallet-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1), transparent 60%);
+}
+
+.wallet-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.2), transparent);
+}
+
+/* ================================
+   SKELETON LOADERS
+   ================================ */
+
+.skeleton {
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 8px;
+}
+
+/* ================================
+   RESPONSIVE UTILITIES
+   ================================ */
+
+@media (max-width: 768px) {
+  .glass-card {
+    border-radius: 16px;
+  }
+  
+  .premium-card {
+    border-radius: 20px;
+  }
+  
+  .btn-primary {
+    padding: 12px 24px;
+    font-size: 13px;
+  }
+}
+
+/* ================================
+   SAFE AREAS (Mobile)
+   ================================ */
+
+@supports (padding: env(safe-area-inset-bottom)) {
+  .safe-bottom {
+    padding-bottom: calc(env(safe-area-inset-bottom) + 16px);
+  }
+  
+  .nav-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* ================================
+   LEGACY SUPPORT
+   ================================ */
+
+.tournament-stat-card {
+  background: rgba(17, 17, 17, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.2s ease;
+}
+
+.tournament-stat-card:hover {
+  border-color: rgba(6, 182, 212, 0.3);
+}
+
+.neon-chip {
+  border-radius: 9999px;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  background: radial-gradient(circle at top left, rgba(6, 182, 212, 0.24), transparent 60%), rgba(15, 23, 42, 0.92);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.65);
+}
+
+.primary-cta {
+  position: relative;
+  border-radius: 10px;
+  background: var(--warzone-cyan);
+  transition: all 0.2s ease;
+}
+
+.primary-cta:hover {
+  background: #0891b2;
+  transform: translateY(-1px);
+}
+
+.primary-cta:active {
+  transform: translateY(0);
+}
