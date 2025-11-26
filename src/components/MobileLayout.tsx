@@ -131,7 +131,7 @@ export default function MobileLayout({ children }: { children: React.ReactNode }
       {pathname !== "/spin" && (
         <Link
           href="/spin"
-          className="md:hidden fixed bottom-20 right-4 z-50 flex items-center gap-2 px-4 py-3 rounded-full bg-gradient-to-r from-yellow-500 to-orange-500 text-black font-bold text-sm shadow-lg shadow-orange-500/30 animate-bounce hover:scale-105 transition-transform"
+          className="md:hidden fixed bottom-28 right-4 z-50 flex items-center gap-2 px-4 py-3 rounded-full bg-gradient-to-r from-yellow-500 to-orange-500 text-black font-bold text-sm shadow-lg shadow-orange-500/30 animate-bounce hover:scale-105 transition-transform"
         >
           <span className="text-lg">🎰</span>
           <span>Spin & Win!</span>
