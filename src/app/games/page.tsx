@@ -32,6 +32,13 @@ type Tournament = {
   banner_url?: string;
 };
 
+// Calculate total prize: position prizes + (per_kill × max_players)
+function calculateTotalPrize(t: Tournament): number {
+  const positionPrizes = t.prize_pool || 0;
+  const perKillTotal = (t.per_kill_coins || 0) * (t.max_players || 0);
+  return positionPrizes + perKillTotal;
+}
+
 export default function GamesPage() {
   const pathname = usePathname();
   const [games, setGames] = useState<GameConfig[]>([]);
@@ -227,7 +234,7 @@ export default function GamesPage() {
                     <div className="flex items-center justify-between mb-2 px-2 py-1.5 rounded-lg bg-yellow-500/10 border border-yellow-500/20">
                       <div className="flex items-center gap-1">
                         <DollarSign className="w-3 h-3 text-yellow-500" />
-                        <span className="text-xs font-bold text-yellow-500">₹{tournament.prize_pool}</span>
+                        <span className="text-xs font-bold text-yellow-500">₹{calculateTotalPrize(tournament).toLocaleString()}</span>
                       </div>
                       {tournament.per_kill_coins && tournament.per_kill_coins > 0 && (
                         <span className="text-[10px] text-orange-400">+₹{tournament.per_kill_coins}/kill</span>
