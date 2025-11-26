@@ -269,13 +269,18 @@ export default function TournamentDetailPage() {
         return;
       }
 
-      // Register for tournament with selected game account
+      // Get the actual in_game_id from selected game account
+      const selectedAccount = gameAccounts.find(acc => acc.id === selectedGameAccount);
+      const actualGameId = selectedAccount?.in_game_id || null;
+      const playerNickname = selectedAccount?.nickname || null;
+
+      // Register for tournament with actual game ID stored
       const { error: regError } = await supabase
         .from("tournament_registrations")
         .insert({
           tournament_id: id,
           user_id: user.id,
-          game_account_id: selectedGameAccount || null,
+          game_account_id: actualGameId, // Store actual game ID like "12345678"
         });
       
       if (regError) {
