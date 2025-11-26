@@ -1,0 +1,10 @@
+# Robots.txt for Warzone Esports
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://warzoneplays.vercel.app/sitemap.xml
+
+# Allow Google AdSense
+User-agent: Mediapartners-Google
+Allow: /
