@@ -332,7 +332,7 @@ export default function Home() {
             </div>
           ) : (
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-              {games.slice(0, 4).map((game) => (
+              {games.map((game) => (
                 <Link
                   key={game.id}
                   href={`/games/${game.slug}`}
