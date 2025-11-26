@@ -232,10 +232,8 @@ export default function TournamentDetailPage() {
   // Check if user has enough balance
   const hasEnoughBalance = (profile?.coins ?? 0) >= (tournament?.entry_fee ?? 0);
   
-  // Filter game accounts for this game
-  const relevantGameAccounts = gameAccounts.filter(acc => 
-    acc.game_name.toLowerCase().includes(tournament?.game?.toLowerCase() || "")
-  );
+  // Show all game accounts (no filtering by game)
+  const relevantGameAccounts = gameAccounts;
 
   async function handleConfirmJoin() {
     if (!user || !id || !tournament || isJoined || !profile) return;
@@ -271,12 +269,13 @@ export default function TournamentDetailPage() {
         return;
       }
 
-      // Register for tournament
+      // Register for tournament with selected game account
       const { error: regError } = await supabase
         .from("tournament_registrations")
         .insert({
           tournament_id: id,
           user_id: user.id,
+          game_account_id: selectedGameAccount || null,
         });
       
       if (regError) {
