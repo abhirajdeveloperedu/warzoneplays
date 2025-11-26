@@ -7,6 +7,13 @@ import { ArrowLeft, Trophy, Clock, DollarSign, Users, Filter } from "lucide-reac
 import { supabase } from "@/lib/supabaseClient";
 import MobileLayout from "@/components/MobileLayout";
 
+type GameInfo = {
+  id: string;
+  name: string;
+  slug: string;
+  image_url: string | null;
+};
+
 type Tournament = {
   id: string;
   title: string;
@@ -32,35 +39,44 @@ function calculateTotalPrize(t: Tournament): number {
   return positionPrizes + perKillTotal;
 }
 
-const GAMES_CONFIG: Record<string, any> = {
-  bgmi: { name: "BGMI", icon: "🎮", color: "from-orange-500 to-red-500", banner: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=1200&h=400&fit=crop" },
-  freefire: { name: "Free Fire", icon: "🔥", color: "from-yellow-500 to-orange-500", banner: "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=1200&h=400&fit=crop" },
-  cod: { name: "Call of Duty", icon: "🪖", color: "from-green-500 to-emerald-500", banner: "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=1200&h=400&fit=crop" },
-  valorant: { name: "Valorant", icon: "🎯", color: "from-purple-500 to-pink-500", banner: "https://images.unsplash.com/photo-1560419015-7c427e8ae5ba?w=1200&h=400&fit=crop" },
-  gta: { name: "GTA V", icon: "🚗", color: "from-blue-500 to-cyan-500", banner: "https://images.unsplash.com/photo-1612287230202-1ff1d85d1bdf?w=1200&h=400&fit=crop" },
-  chess: { name: "Chess", icon: "♟️", color: "from-gray-500 to-zinc-500", banner: "https://images.unsplash.com/photo-1528819622765-d6bcf132f793?w=1200&h=400&fit=crop" },
-};
-
 export default function GameTournamentsPage() {
   const params = useParams();
   const router = useRouter();
-  const gameId = params.gameId as string;
-  const game = GAMES_CONFIG[gameId];
+  const gameSlug = params.gameId as string;
 
+  const [game, setGame] = useState<GameInfo | null>(null);
   const [tournaments, setTournaments] = useState<Tournament[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<"all" | "live" | "upcoming">("all");
   const [sortBy, setSortBy] = useState<"time" | "prize" | "entry">("time");
 
+  // Load game info from database
   useEffect(() => {
-    if (!game) {
-      router.push("/games");
-      return;
+    async function loadGame() {
+      const { data } = await supabase
+        .from("games")
+        .select("*")
+        .eq("slug", gameSlug)
+        .single();
+      
+      if (data) {
+        setGame(data);
+      } else {
+        router.push("/games");
+      }
     }
-    loadTournaments();
-  }, [gameId, filter, sortBy]);
+    loadGame();
+  }, [gameSlug]);
+
+  // Load tournaments when game is loaded or filters change
+  useEffect(() => {
+    if (game) {
+      loadTournaments();
+    }
+  }, [game, filter, sortBy]);
 
   async function loadTournaments() {
+    if (!game) return;
     setLoading(true);
     try {
       let query = supabase
@@ -91,18 +107,30 @@ export default function GameTournamentsPage() {
     }
   }
 
-  if (!game) return null;
+  if (!game) {
+    return (
+      <MobileLayout>
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="h-8 w-8 border-4 border-cyan-500/30 border-t-cyan-500 rounded-full animate-spin" />
+        </div>
+      </MobileLayout>
+    );
+  }
 
   return (
     <MobileLayout>
       <div className="min-h-screen">
         {/* Hero Banner */}
         <div className="relative h-56 md:h-72 tournament-hero-glow">
-          <img
-            src={game.banner}
-            alt={game.name}
-            className="h-full w-full object-cover hero-zoom-img"
-          />
+          {game.image_url ? (
+            <img
+              src={game.image_url}
+              alt={game.name}
+              className="h-full w-full object-cover hero-zoom-img"
+            />
+          ) : (
+            <div className="h-full w-full bg-gradient-to-br from-cyan-500/20 to-purple-500/20" />
+          )}
           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
           
           {/* Back Button */}
@@ -115,12 +143,9 @@ export default function GameTournamentsPage() {
           
           {/* Game Info */}
           <div className="absolute bottom-0 left-0 right-0 p-6">
-            <div className="flex items-center gap-3 mb-2">
-              <span className="text-4xl">{game.icon}</span>
-              <h1 className="text-3xl font-bold text-white">{game.name}</h1>
-            </div>
+            <h1 className="text-3xl font-bold text-white mb-2">{game.name}</h1>
             <p className="text-sm text-zinc-300">
-              {tournaments.length} Active Tournaments
+              {tournaments.length} Tournament{tournaments.length !== 1 ? 's' : ''}
             </p>
           </div>
         </div>
