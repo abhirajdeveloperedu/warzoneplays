@@ -429,6 +429,22 @@ export default function Home() {
             </div>
           )}
         </section>
+
+        {/* Mobile Footer */}
+        <footer className="md:hidden mt-8 mb-4 px-4">
+          <div className="p-4 rounded-2xl bg-zinc-900/50 border border-white/10">
+            <div className="flex flex-wrap justify-center gap-3 text-xs text-zinc-400">
+              <Link href="/about" className="hover:text-white transition">About Us</Link>
+              <span className="text-zinc-600">•</span>
+              <Link href="/privacy" className="hover:text-white transition">Privacy Policy</Link>
+              <span className="text-zinc-600">•</span>
+              <Link href="/terms" className="hover:text-white transition">Terms</Link>
+              <span className="text-zinc-600">•</span>
+              <Link href="/contact" className="hover:text-white transition">Contact</Link>
+            </div>
+            <p className="text-center text-[10px] text-zinc-600 mt-3">© 2025 Warzone Esports. All rights reserved.</p>
+          </div>
+        </footer>
       </div>
     </MobileLayout>
   );
