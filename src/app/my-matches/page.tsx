@@ -35,6 +35,13 @@ type Tournament = {
   max_players: number;
 };
 
+// Calculate total prize: position prizes + (per_kill × max_players)
+function calculateTotalPrize(t: Tournament): number {
+  const positionPrizes = t.prize_pool || 0;
+  const perKillTotal = (t.per_kill_coins || 0) * (t.max_players || 0);
+  return positionPrizes + perKillTotal;
+}
+
 export default function MyMatchesPage() {
   const pathname = usePathname();
   const { user } = useAuth();
@@ -289,7 +296,7 @@ export default function MyMatchesPage() {
                         <div className="flex items-center gap-3">
                           <div className="flex items-center gap-1">
                             <DollarSign className="w-3 h-3 text-yellow-500" />
-                            <span className="text-zinc-300">₹{tournament.prize_pool}</span>
+                            <span className="text-zinc-300">₹{calculateTotalPrize(tournament).toLocaleString()}</span>
                           </div>
                           <div className="flex items-center gap-1">
                             <Users className="w-3 h-3 text-zinc-400" />
