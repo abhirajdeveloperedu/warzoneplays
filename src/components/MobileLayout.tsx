@@ -127,6 +127,17 @@ export default function MobileLayout({ children }: { children: React.ReactNode }
         {children}
       </main>
 
+      {/* Floating Spin & Win Button */}
+      {pathname !== "/spin" && (
+        <Link
+          href="/spin"
+          className="md:hidden fixed bottom-20 right-4 z-50 flex items-center gap-2 px-4 py-3 rounded-full bg-gradient-to-r from-yellow-500 to-orange-500 text-black font-bold text-sm shadow-lg shadow-orange-500/30 animate-bounce hover:scale-105 transition-transform"
+        >
+          <span className="text-lg">🎰</span>
+          <span>Spin & Win!</span>
+        </Link>
+      )}
+
       {/* Bottom Navigation - Mobile */}
       <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-zinc-900 border-t border-white/10 safe-bottom">
         <div className="grid grid-cols-5 py-2 px-1">
