@@ -37,12 +37,20 @@ type Tournament = {
   game: string;
   prize_pool: number;
   entry_fee: number;
+  per_kill: number;
   start_time: string;
   current_players: number;
   max_players: number;
   thumbnail_url?: string;
   status: string;
 };
+
+// Calculate total prize: position prizes + (per_kill × max_players)
+function calculateTotalPrize(t: Tournament): number {
+  const positionPrizes = t.prize_pool || 0;
+  const perKillTotal = (t.per_kill || 0) * (t.max_players || 0);
+  return positionPrizes + perKillTotal;
+}
 
 type PlatformStats = {
   live_tournaments: number;
@@ -394,7 +402,7 @@ export default function Home() {
                         <h3 className="text-sm font-semibold text-white">{t.title}</h3>
                       </div>
                       <div className="chip-prize px-3 py-1.5">
-                        <span className="text-xs font-bold">₹{t.prize_pool?.toLocaleString()}</span>
+                        <span className="text-xs font-bold">₹{calculateTotalPrize(t).toLocaleString()}</span>
                       </div>
                     </div>
                     <div className="flex items-center justify-between">
