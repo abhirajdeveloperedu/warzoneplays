@@ -25,6 +25,13 @@ type Tournament = {
   banner_url?: string;
 };
 
+// Calculate total prize: position prizes + (per_kill × max_players)
+function calculateTotalPrize(t: Tournament): number {
+  const positionPrizes = t.prize_pool || 0;
+  const perKillTotal = (t.per_kill_coins || 0) * (t.max_players || 0);
+  return positionPrizes + perKillTotal;
+}
+
 const GAMES_CONFIG: Record<string, any> = {
   bgmi: { name: "BGMI", icon: "🎮", color: "from-orange-500 to-red-500", banner: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=1200&h=400&fit=crop" },
   freefire: { name: "Free Fire", icon: "🔥", color: "from-yellow-500 to-orange-500", banner: "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=1200&h=400&fit=crop" },
@@ -225,7 +232,7 @@ export default function GameTournamentsPage() {
                       <div className="flex items-center gap-4 text-xs">
                         <div className="flex items-center gap-1">
                           <DollarSign className="w-3 h-3 text-yellow-500" />
-                          <span className="font-semibold text-yellow-500">₹{tournament.prize_pool}</span>
+                          <span className="font-semibold text-yellow-500">₹{calculateTotalPrize(tournament).toLocaleString()}</span>
                         </div>
                         <div className="flex items-center gap-1">
                           <Users className="w-3 h-3 text-zinc-400" />
