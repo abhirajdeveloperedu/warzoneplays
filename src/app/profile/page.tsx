@@ -89,15 +89,14 @@ export default function ProfilePage() {
   }
   
   async function handleAddGameAccount() {
-    if (!user || !selectedGame || !inGameName) return;
+    if (!user || !inGameName) return;
     setSavingGame(true);
     try {
-      const game = games.find(g => g.id === selectedGame);
       const { error } = await supabase
         .from("game_accounts")
         .insert({
           user_id: user.id,
-          game_name: game?.name || selectedGame,
+          game_name: "Universal", // No game-specific IDs, works for all games
           in_game_id: inGameName,
           nickname: gameUid || null,
         });
@@ -107,7 +106,6 @@ export default function ProfilePage() {
       } else {
         await loadGameAccounts();
         setShowAddGame(false);
-        setSelectedGame("");
         setInGameName("");
         setGameUid("");
       }
@@ -399,19 +397,6 @@ export default function ProfilePage() {
               <h4 className="text-sm font-semibold text-white mb-3">Add Game Account</h4>
               <div className="space-y-3">
                 <div>
-                  <label className="text-xs text-zinc-400 mb-1 block">Select Game</label>
-                  <select
-                    value={selectedGame}
-                    onChange={(e) => setSelectedGame(e.target.value)}
-                    className="w-full px-3 py-2 rounded-lg bg-black/40 border border-white/10 text-white text-sm"
-                  >
-                    <option value="">Choose a game...</option>
-                    {games.filter(g => !gameAccounts.some(acc => acc.game_name === g.name)).map(game => (
-                      <option key={game.id} value={game.id}>{game.name}</option>
-                    ))}
-                  </select>
-                </div>
-                <div>
                   <label className="text-xs text-zinc-400 mb-1 block">In-Game ID / UID *</label>
                   <input
                     type="text"
@@ -434,13 +419,13 @@ export default function ProfilePage() {
                 <div className="flex gap-2">
                   <button
                     onClick={handleAddGameAccount}
-                    disabled={!selectedGame || !inGameName || savingGame}
+                    disabled={!inGameName || savingGame}
                     className="flex-1 py-2 rounded-lg bg-cyan-500 text-black font-semibold text-sm disabled:opacity-50"
                   >
                     {savingGame ? "Saving..." : "Save"}
                   </button>
                   <button
-                    onClick={() => { setShowAddGame(false); setSelectedGame(""); setInGameName(""); setGameUid(""); }}
+                    onClick={() => { setShowAddGame(false); setInGameName(""); setGameUid(""); }}
                     className="px-4 py-2 rounded-lg bg-zinc-700 text-white text-sm"
                   >
                     Cancel
