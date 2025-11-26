@@ -262,6 +262,20 @@ export default function MobileLayout({ children }: { children: React.ReactNode }
             <p className="text-xs text-zinc-500">Active tournaments</p>
           </div>
         </div>
+
+        {/* Footer Links */}
+        <div className="p-4 border-t border-white/5 mt-auto">
+          <div className="flex flex-wrap gap-2 text-xs text-zinc-500">
+            <Link href="/about" className="hover:text-white transition">About</Link>
+            <span>•</span>
+            <Link href="/privacy" className="hover:text-white transition">Privacy</Link>
+            <span>•</span>
+            <Link href="/terms" className="hover:text-white transition">Terms</Link>
+            <span>•</span>
+            <Link href="/contact" className="hover:text-white transition">Contact</Link>
+          </div>
+          <p className="text-[10px] text-zinc-600 mt-2">© 2025 Warzone Esports</p>
+        </div>
       </aside>
     </div>
   );
