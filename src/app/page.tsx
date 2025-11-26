@@ -37,7 +37,7 @@ type Tournament = {
   game: string;
   prize_pool: number;
   entry_fee: number;
-  per_kill: number;
+  per_kill_coins?: number;
   start_time: string;
   current_players: number;
   max_players: number;
@@ -48,7 +48,7 @@ type Tournament = {
 // Calculate total prize: position prizes + (per_kill × max_players)
 function calculateTotalPrize(t: Tournament): number {
   const positionPrizes = t.prize_pool || 0;
-  const perKillTotal = (t.per_kill || 0) * (t.max_players || 0);
+  const perKillTotal = (t.per_kill_coins || 0) * (t.max_players || 0);
   return positionPrizes + perKillTotal;
 }
 
